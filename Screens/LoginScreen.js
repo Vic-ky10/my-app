@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import {auth} from "../service/firebaseAuth";
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -21,6 +21,10 @@ const LoginScreen = () => {
         setError(error?.message || "Registration failed");
       });
   };
+
+  const goToRegister=() => {
+  navigation.navigate("Register")
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Login </Text>
@@ -39,7 +43,7 @@ const LoginScreen = () => {
       {error && <Text style={styles.error}>{error}</Text>}
       <Text style={styles.text}>
         Create an account ?
-        <Text style={styles.textBold}> Register here </Text>
+        <Text style={styles.textBold} onPress={goToRegister}> Register here </Text>
       </Text>
     </View>
   );
