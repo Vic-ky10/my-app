@@ -23,5 +23,3 @@ auth = initializeAuth(app)
 
 export default auth;
 
-
-// 
