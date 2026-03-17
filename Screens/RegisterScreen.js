@@ -5,13 +5,19 @@ import {auth} from '../service/firebaseAuth'
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [error , setError] = useState("")
  const handleRegister = () =>{
-    console.log( email , password)
+  
     createUserWithEmailAndPassword(auth, email ,password)
-    
-
-
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user)
+      setError("")
+    })
+    .catch((error) => {
+      console.log(error)
+      setError(error?.message || "Registration failed")
+    })
  }
   return (
     <View style={styles.container}>
@@ -19,7 +25,7 @@ const RegisterScreen = () => {
       <TextInput placeholder="Email" style={styles.input}  onChangeText={setEmail}/>
       <TextInput placeholder="Password" secureTextEntry style={styles.input}  onChangeText={setPassword}/>
       <Button title="register"  onPress={handleRegister}/>
-
+    { error && <Text>{error}</Text>}
       <Text style={styles.text}>Already have an account ?<Text style={styles.textBold}> Login here </Text></Text>
     </View>
   );
@@ -35,7 +41,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-
     padding: "15px",
     width: 300,
     borderColor: "gray",
@@ -48,8 +53,6 @@ const styles = StyleSheet.create({
   },
   text :{
     fontSize :15,
-
-
   },
   textBold :{
     fontWeight : "600"
